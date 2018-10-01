@@ -1,0 +1,149 @@
+#include <Windows.h>
+#include <iostream>
+#include <ctime>
+
+using namespace std;
+
+/*  Операции с массивами */
+
+
+
+void FillArray(int* const arr, int const size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		arr[i] = rand() % 20;
+	}
+}
+
+void ShowArray(const int* const arr, int const size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		cout << arr[i] << "\t";
+	}
+}
+
+void push_back(int *&arr, int &size, const int value)//*& ????????????????
+{
+	int *newArray = new int[size + 1];
+
+	for (int i = 0; i < size; i++)
+	{
+		newArray[i] = arr[i];
+	}
+	newArray[size] = value;
+
+	size++;
+
+	delete[] arr;
+	arr = newArray;
+}
+
+void pop_back(int *&arr, int &size)
+{
+	size--;
+	int *newArray = new int[size];
+
+	for (int i = 0; i < size; i++)
+	{
+		newArray[i] = arr[i];
+	}
+	
+	delete[] arr;
+	arr = newArray;
+}
+
+void push_start(int *&arr, int &size, int const value)
+{
+	size++;
+	int *newArray = new int[size];
+
+	for (int i = 1; i < size; i++)
+	{
+		newArray[i] = arr[i - 1];
+	}
+	newArray[0] = value;
+
+	delete[] arr;
+
+	arr = newArray;
+}
+
+void kick_elem(int *&arr, int &size, int const elem)
+{
+	size--;
+	int *newArray = new int[size];
+
+	for (int i = 0; i < size; i++)
+	{
+		if (i == elem)
+		{			
+			for (; i < size + 1; i++)
+			{
+				newArray[i - 1] = arr[i];
+			}
+			break;
+		}
+		newArray[i] = arr[i];
+	}
+
+	delete[] arr;
+
+	arr = newArray;
+}
+
+void input_elem(int *&arr, int &size, int const value, int const index)
+{
+	size++;
+	int *newArray = new int[size];
+
+	for (int i = 0; i < size; i++)
+	{
+		if (i == index)
+		{
+			newArray[i] = value;
+			i++;
+			for (; i < size; i++)
+			{
+				newArray[i] = arr[i - 1];
+			}
+			break;
+		}
+		newArray[i] = arr[i];		
+	}
+
+	delete[] arr;
+
+	arr = newArray;
+}
+
+int main()
+{
+	setlocale(LC_ALL, "Rus");
+
+	int size = 5;
+	int *arr = new int[size];
+
+	FillArray(arr, size);
+	ShowArray(arr, size);
+
+	cout << "\n";
+
+	push_back(arr, size, 99);
+	ShowArray(arr, size);
+
+	cout << "\n";
+
+	input_elem(arr, size, 777, 2);
+	ShowArray(arr, size);
+
+	cout << "\n";
+
+	input_elem(arr, size, 777, 0);
+	ShowArray(arr, size);
+
+
+	delete[] arr;
+
+}
